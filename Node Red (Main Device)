@@ -1,0 +1,468 @@
+[
+    {
+        "id": "973f6cd2.3d7f7",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "46e4713d.25d97",
+        "type": "ibmiot in",
+        "z": "973f6cd2.3d7f7",
+        "authentication": "boundService",
+        "apiKey": "f42430ab.20e87",
+        "inputType": "evt",
+        "logicalInterface": "",
+        "ruleId": "",
+        "deviceId": "b827ebb49ff0",
+        "applicationId": "",
+        "deviceType": "AndroidSim",
+        "eventType": "+",
+        "commandType": "",
+        "format": "json",
+        "name": "IBM IoT",
+        "service": "registered",
+        "allDevices": true,
+        "allApplications": "",
+        "allDeviceTypes": false,
+        "allLogicalInterfaces": false,
+        "allEvents": true,
+        "allCommands": "",
+        "allFormats": true,
+        "qos": 0,
+        "x": 70,
+        "y": 240,
+        "wires": [
+            [
+                "41eb953d.4ba2dc",
+                "96d96924.1643f8",
+                "b3ab09b7.9554d8"
+            ]
+        ]
+    },
+    {
+        "id": "41eb953d.4ba2dc",
+        "type": "function",
+        "z": "973f6cd2.3d7f7",
+        "name": "Extract GPS location",
+        "func": "var newMsg = {\"name\":msg.deviceId,\"lon\":msg.payload.d.Longitude,\"lat\": msg.payload.d.Latitude, command:{\"lon\":msg.payload.d.Longitude,\"lat\": msg.payload.d.Latitude } };\nreturn {payload:newMsg};",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 320,
+        "y": 240,
+        "wires": [
+            [
+                "2ab91bfb.ec5f94",
+                "4491b5f2.9ea06c"
+            ]
+        ]
+    },
+    {
+        "id": "96d96924.1643f8",
+        "type": "function",
+        "z": "973f6cd2.3d7f7",
+        "name": "Extract Temperature",
+        "func": "return {payload:msg.payload.d.Temperature};",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 300,
+        "y": 140,
+        "wires": [
+            [
+                "e0f5791d.dacaa8",
+                "312b14f.e94c9ec"
+            ]
+        ]
+    },
+    {
+        "id": "2ab91bfb.ec5f94",
+        "type": "template",
+        "z": "973f6cd2.3d7f7",
+        "name": "Create the iframe for Dashboard",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "&lt;iframe frameborder=\"0\" height=350 width=290 src=\"http://node-red-scdf.mybluemix.net/worldmap\"&gt;&lt;/iframe&gt;",
+        "x": 610,
+        "y": 300,
+        "wires": [
+            [
+                "f3a20820.97c0f8"
+            ]
+        ]
+    },
+    {
+        "id": "4491b5f2.9ea06c",
+        "type": "worldmap",
+        "z": "973f6cd2.3d7f7",
+        "name": "Sensor location",
+        "lat": "",
+        "lon": "",
+        "zoom": "0",
+        "layer": "OSM",
+        "cluster": "",
+        "maxage": "",
+        "usermenu": "show",
+        "layers": "show",
+        "panit": "true",
+        "panlock": "false",
+        "zoomlock": "false",
+        "hiderightclick": "false",
+        "coords": "deg",
+        "path": "",
+        "x": 540,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "e0f5791d.dacaa8",
+        "type": "ui_chart",
+        "z": "973f6cd2.3d7f7",
+        "name": "Temperature Sensor",
+        "group": "a4b4e600.cc0038",
+        "order": 1,
+        "width": "5",
+        "height": "8",
+        "label": "Temperature Sensor",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "HH:mm:ss",
+        "interpolate": "step",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "80",
+        "removeOlder": "10",
+        "removeOlderPoints": "10",
+        "removeOlderUnit": "60",
+        "cutout": "",
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "x": 580,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "312b14f.e94c9ec",
+        "type": "switch",
+        "z": "973f6cd2.3d7f7",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "45",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 539,
+        "y": 85,
+        "wires": [
+            [
+                "be299c9d.74918"
+            ]
+        ]
+    },
+    {
+        "id": "be299c9d.74918",
+        "type": "change",
+        "z": "973f6cd2.3d7f7",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Temperature too high",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 707,
+        "y": 84,
+        "wires": [
+            [
+                "5973f82a.9720f8"
+            ]
+        ]
+    },
+    {
+        "id": "5973f82a.9720f8",
+        "type": "ui_toast",
+        "z": "973f6cd2.3d7f7",
+        "position": "dialog",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 1,
+        "ok": "Acknowledge",
+        "cancel": "Cancel",
+        "raw": false,
+        "topic": "Temperature too high",
+        "name": "Temperature Popup",
+        "x": 894,
+        "y": 84,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f3a20820.97c0f8",
+        "type": "ui_template",
+        "z": "973f6cd2.3d7f7",
+        "group": "597f86b0.8d9978",
+        "name": "And display",
+        "order": 0,
+        "width": "6",
+        "height": "8",
+        "format": "",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": false,
+        "templateScope": "local",
+        "x": 880,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b3ab09b7.9554d8",
+        "type": "function",
+        "z": "973f6cd2.3d7f7",
+        "name": "Extract Smoke Level",
+        "func": "return {payload:msg.payload.d.Smoke};",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 280,
+        "y": 360,
+        "wires": [
+            [
+                "341d950e.79a8ba",
+                "9fbaaa30.793008"
+            ]
+        ]
+    },
+    {
+        "id": "341d950e.79a8ba",
+        "type": "ui_chart",
+        "z": "973f6cd2.3d7f7",
+        "name": "Smoke Sensor",
+        "group": "419b0f7e.4a0ac",
+        "order": 1,
+        "width": "5",
+        "height": "8",
+        "label": "Smoke Sensor",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "HH:mm:ss",
+        "interpolate": "step",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "10",
+        "removeOlder": "10",
+        "removeOlderPoints": "10",
+        "removeOlderUnit": "60",
+        "cutout": "",
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "x": 540,
+        "y": 520,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9fbaaa30.793008",
+        "type": "switch",
+        "z": "973f6cd2.3d7f7",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "8",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 519,
+        "y": 445,
+        "wires": [
+            [
+                "6ad19b83.8310f4"
+            ]
+        ]
+    },
+    {
+        "id": "6ad19b83.8310f4",
+        "type": "change",
+        "z": "973f6cd2.3d7f7",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "High Smoke level detected!",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 687,
+        "y": 444,
+        "wires": [
+            [
+                "74e0fb03.a27f34"
+            ]
+        ]
+    },
+    {
+        "id": "74e0fb03.a27f34",
+        "type": "ui_toast",
+        "z": "973f6cd2.3d7f7",
+        "position": "dialog",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 1,
+        "ok": "Acknowledge",
+        "cancel": "Cancel",
+        "raw": false,
+        "topic": "High Smoke Level",
+        "name": "Smoke Popup",
+        "x": 864,
+        "y": 444,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "55f7d492.d79dec",
+        "type": "ibmiot out",
+        "z": "973f6cd2.3d7f7",
+        "authentication": "boundService",
+        "apiKey": "f42430ab.20e87",
+        "outputType": "evt",
+        "deviceId": "b827ebb49ff0",
+        "deviceType": "AndroidSim",
+        "eventCommandType": "+",
+        "format": "json",
+        "data": "",
+        "qos": "1",
+        "name": "IBM IoT",
+        "service": "registered",
+        "x": 300,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "590dc736.9f18f8",
+        "type": "microphone",
+        "z": "973f6cd2.3d7f7",
+        "name": "",
+        "x": 110,
+        "y": 420,
+        "wires": [
+            [
+                "55f7d492.d79dec"
+            ]
+        ]
+    },
+    {
+        "id": "f42430ab.20e87",
+        "type": "ibmiot",
+        "z": "",
+        "name": "Andriod001",
+        "keepalive": "60",
+        "serverName": "",
+        "cleansession": true,
+        "appId": "",
+        "shared": false
+    },
+    {
+        "id": "a4b4e600.cc0038",
+        "type": "ui_group",
+        "z": "",
+        "name": "Temp Sensor",
+        "tab": "99494cf9.3464b",
+        "order": 6,
+        "disp": true,
+        "width": "5",
+        "collapse": false
+    },
+    {
+        "id": "597f86b0.8d9978",
+        "type": "ui_group",
+        "z": 0,
+        "name": "Location",
+        "tab": "99494cf9.3464b",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "419b0f7e.4a0ac",
+        "type": "ui_group",
+        "z": 0,
+        "name": "Smoke Sensor",
+        "tab": "99494cf9.3464b",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "99494cf9.3464b",
+        "type": "ui_tab",
+        "z": 0,
+        "name": "Connected Cabinet",
+        "icon": "Dashboard",
+        "order": 3
+    }
+]
