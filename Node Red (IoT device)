@@ -1,0 +1,512 @@
+[
+    {
+        "id": "729683e4.f051bc",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "44720734.224088",
+        "type": "inject",
+        "z": "729683e4.f051bc",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "600",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "",
+        "x": 150,
+        "y": 380,
+        "wires": [
+            [
+                "ae72c43d.cac1d8",
+                "ba86e643.4727a8"
+            ]
+        ]
+    },
+    {
+        "id": "ae72c43d.cac1d8",
+        "type": "exec",
+        "z": "729683e4.f051bc",
+        "command": "termux-location",
+        "addpay": false,
+        "append": "",
+        "useSpawn": "true",
+        "timer": "100",
+        "name": "",
+        "x": 340,
+        "y": 220,
+        "wires": [
+            [
+                "8c44e4cc.fc60e8"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "8c44e4cc.fc60e8",
+        "type": "json",
+        "z": "729683e4.f051bc",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 392,
+        "y": 356,
+        "wires": [
+            [
+                "eb5c5792.e97058",
+                "2a0f449b.05799c"
+            ]
+        ]
+    },
+    {
+        "id": "eb5c5792.e97058",
+        "type": "change",
+        "z": "729683e4.f051bc",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.longitude",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 555,
+        "y": 336,
+        "wires": [
+            [
+                "31dd13e1.eae37c"
+            ]
+        ]
+    },
+    {
+        "id": "2a0f449b.05799c",
+        "type": "change",
+        "z": "729683e4.f051bc",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.latitude",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 554,
+        "y": 382,
+        "wires": [
+            [
+                "bbc3fb40.677fb8"
+            ]
+        ]
+    },
+    {
+        "id": "199a2150.18632f",
+        "type": "inject",
+        "z": "729683e4.f051bc",
+        "name": "",
+        "topic": "",
+        "payload": "25",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "",
+        "x": 450,
+        "y": 440,
+        "wires": [
+            [
+                "90fda618.934348"
+            ]
+        ]
+    },
+    {
+        "id": "90fda618.934348",
+        "type": "ui_slider",
+        "z": "729683e4.f051bc",
+        "name": "Temperature",
+        "label": "Temperature",
+        "tooltip": "",
+        "group": "6e14dc79.b98454",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "outs": "all",
+        "topic": "Temperature",
+        "min": "0",
+        "max": "80",
+        "step": 1,
+        "x": 730,
+        "y": 420,
+        "wires": [
+            [
+                "272c335b.3e117c"
+            ]
+        ]
+    },
+    {
+        "id": "31dd13e1.eae37c",
+        "type": "ui_text_input",
+        "z": "729683e4.f051bc",
+        "name": "Longitude",
+        "label": "Enter Longitude",
+        "tooltip": "",
+        "group": "6e14dc79.b98454",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "mode": "text",
+        "delay": "500",
+        "topic": "Longitude",
+        "x": 760,
+        "y": 280,
+        "wires": [
+            [
+                "272c335b.3e117c"
+            ]
+        ]
+    },
+    {
+        "id": "bbc3fb40.677fb8",
+        "type": "ui_text_input",
+        "z": "729683e4.f051bc",
+        "name": "Latitude",
+        "label": "Enter Latitude",
+        "tooltip": "",
+        "group": "6e14dc79.b98454",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "mode": "text",
+        "delay": "500",
+        "topic": "Latitude",
+        "x": 760,
+        "y": 360,
+        "wires": [
+            [
+                "272c335b.3e117c"
+            ]
+        ]
+    },
+    {
+        "id": "fa7868f7.fcda58",
+        "type": "wiotp out",
+        "z": "729683e4.f051bc",
+        "authType": "d",
+        "qs": "false",
+        "qsDeviceId": "",
+        "deviceKey": "300497a.a2a1868",
+        "deviceType": "",
+        "deviceId": "",
+        "event": "event",
+        "format": "json",
+        "qos": "0",
+        "name": "",
+        "x": 1030,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "272c335b.3e117c",
+        "type": "collector",
+        "z": "729683e4.f051bc",
+        "name": "",
+        "onlyIfChanged": false,
+        "x": 955,
+        "y": 430,
+        "wires": [
+            [
+                "fa7868f7.fcda58"
+            ]
+        ]
+    },
+    {
+        "id": "ba86e643.4727a8",
+        "type": "camerapi-takephoto",
+        "z": "729683e4.f051bc",
+        "filemode": "2",
+        "filename": "",
+        "filedefpath": "1",
+        "filepath": "",
+        "fileformat": "jpeg",
+        "resolution": "2",
+        "rotation": "0",
+        "fliph": "0",
+        "flipv": "0",
+        "brightness": "50",
+        "contrast": "0",
+        "sharpness": "0",
+        "quality": "80",
+        "imageeffect": "none",
+        "exposuremode": "auto",
+        "iso": "0",
+        "agcwait": "1.0",
+        "led": "0",
+        "awb": "auto",
+        "name": "Image",
+        "x": 270,
+        "y": 520,
+        "wires": [
+            [
+                "57415538.01dc1c"
+            ]
+        ]
+    },
+    {
+        "id": "c2ba0e15.855c8",
+        "type": "debug",
+        "z": "729683e4.f051bc",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 1130,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "57415538.01dc1c",
+        "type": "object-detector",
+        "z": "729683e4.f051bc",
+        "service": "cf0d849.7ab3f78",
+        "method": "predict",
+        "passthrough": true,
+        "annotated_input": true,
+        "predict_body": "",
+        "predict_bodyType": "str",
+        "predict_threshold": "0.7",
+        "predict_thresholdType": "str",
+        "name": "",
+        "x": 440,
+        "y": 600,
+        "wires": [
+            [
+                "6f7cf187.25bf2",
+                "2f2f6788.5c0cc8"
+            ]
+        ]
+    },
+    {
+        "id": "b528bcf9.cda59",
+        "type": "image",
+        "z": "729683e4.f051bc",
+        "name": "",
+        "width": "300",
+        "data": "payload",
+        "dataType": "msg",
+        "thumbnail": false,
+        "active": true,
+        "pass": false,
+        "outputs": 0,
+        "x": 780,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "2f2f6788.5c0cc8",
+        "type": "function",
+        "z": "729683e4.f051bc",
+        "name": "Extract Bounding Box Image Data",
+        "func": "// if the incoming message contains the annotated image\n// send it to the image output node to display\n\nmsg.payload = msg.annotatedInput;\nif (msg.payload) {\n    return msg;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 500,
+        "y": 680,
+        "wires": [
+            [
+                "b528bcf9.cda59"
+            ]
+        ]
+    },
+    {
+        "id": "83195e32.ba772",
+        "type": "image-caption-generator",
+        "z": "729683e4.f051bc",
+        "service": "5eab3ce2.e8d334",
+        "method": "predict",
+        "predict_body": "",
+        "predict_bodyType": "str",
+        "name": "",
+        "x": 930,
+        "y": 560,
+        "wires": [
+            [
+                "c2ba0e15.855c8"
+            ]
+        ]
+    },
+    {
+        "id": "6f7cf187.25bf2",
+        "type": "function",
+        "z": "729683e4.f051bc",
+        "name": "Extract Input Image Data",
+        "func": "// if the incoming message contains the input image\n// send it to the image-caption-generator node\n// for further processing\n\nmsg.payload = msg.inputData;\nif (msg.payload) {\n    return msg;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 670,
+        "y": 540,
+        "wires": [
+            [
+                "83195e32.ba772"
+            ]
+        ]
+    },
+    {
+        "id": "f9afacd1.1de31",
+        "type": "inject",
+        "z": "729683e4.f051bc",
+        "name": "",
+        "topic": "",
+        "payload": "2",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "",
+        "x": 450,
+        "y": 520,
+        "wires": [
+            [
+                "3dc7ae67.067a52"
+            ]
+        ]
+    },
+    {
+        "id": "3dc7ae67.067a52",
+        "type": "ui_slider",
+        "z": "729683e4.f051bc",
+        "name": "Smoke",
+        "label": "Smoke",
+        "tooltip": "",
+        "group": "6e14dc79.b98454",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "outs": "all",
+        "topic": "Smoke",
+        "min": "0",
+        "max": "10",
+        "step": 1,
+        "x": 730,
+        "y": 480,
+        "wires": [
+            [
+                "272c335b.3e117c"
+            ]
+        ]
+    },
+    {
+        "id": "ec7c3f93.23fc4",
+        "type": "fileinject",
+        "z": "729683e4.f051bc",
+        "name": "",
+        "x": 140,
+        "y": 580,
+        "wires": [
+            [
+                "57415538.01dc1c"
+            ]
+        ]
+    },
+    {
+        "id": "5196de2b.2793b",
+        "type": "wiotp in",
+        "z": "729683e4.f051bc",
+        "authType": "d",
+        "deviceKey": "300497a.a2a1868",
+        "deviceType": "",
+        "deviceId": "",
+        "command": "+",
+        "commandType": "g",
+        "qos": 0,
+        "name": "Event Input",
+        "x": 150,
+        "y": 720,
+        "wires": [
+            [
+                "304b1c87.735a04"
+            ]
+        ]
+    },
+    {
+        "id": "304b1c87.735a04",
+        "type": "play audio",
+        "z": "729683e4.f051bc",
+        "name": "",
+        "voice": "2",
+        "x": 340,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "6e14dc79.b98454",
+        "type": "ui_group",
+        "z": "729683e4.f051bc",
+        "name": "Sensor Inputs",
+        "tab": "478fd455.ef5fdc",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "300497a.a2a1868",
+        "type": "wiotp-credentials",
+        "z": "729683e4.f051bc",
+        "name": "",
+        "org": "529vid",
+        "serverName": "529vid.messaging.internetofthings.ibmcloud.com",
+        "devType": "AndroidSim",
+        "devId": "Android001",
+        "keepalive": "60",
+        "cleansession": true,
+        "tls": "",
+        "usetls": false
+    },
+    {
+        "id": "cf0d849.7ab3f78",
+        "type": "object-detector-service",
+        "z": "",
+        "host": "https://max-object-detector.codait-prod-41208c73af8fca213512856c7a09db52-0000.us-east.containers.appdomain.cloud",
+        "name": "FIre Detector"
+    },
+    {
+        "id": "5eab3ce2.e8d334",
+        "type": "image-caption-generator-service",
+        "z": 0,
+        "host": "https://max-image-caption-generator.codait-prod-41208c73af8fca213512856c7a09db52-0000.us-east.containers.appdomain.cloud",
+        "name": "cloud"
+    },
+    {
+        "id": "478fd455.ef5fdc",
+        "type": "ui_tab",
+        "z": "729683e4.f051bc",
+        "name": "Home",
+        "icon": "Dashboard"
+    }
+]
