@@ -1,0 +1,16 @@
+---
+applications:
+- instances: 1
+  timeout: 180
+  name: noderedscdf
+  buildpack: sdk-for-nodejs
+  command: npm start
+  disk_quota: 1G
+  memory: 128MB
+  domain: mybluemix.net
+  host: node-red-scdf
+  services:
+    - node-red-scdf-cloudant-1592038572443-15706
+    - node-red-scdf-iotplatform-1592039112170-69120
+  env:
+    OPTIMIZE_MEMORY: true
